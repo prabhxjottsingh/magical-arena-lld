@@ -6,6 +6,7 @@ export class MagicalArena {
     private _player2: PlayerData;
     private _attackingDie: Dice;
     private _defendingDie: Dice;
+    private _turnCount: number;
     /**
      * Constructs a new MagicalArena instance.
      * @param player1 - The data of the first player.
@@ -16,6 +17,7 @@ export class MagicalArena {
         this._player2 = player2;
         this._attackingDie = new Dice();
         this._defendingDie = new Dice();
+        this._turnCount = 1;
     }
 
     /**
@@ -25,7 +27,7 @@ export class MagicalArena {
     startMatch(): void {
         // Determine which player attacks and which one defends based on health comparison
         let [attackingPlayer, defendingPlayer] = this._player1.playerHealth > this._player2.playerHealth
-            ? [this._player2, this._player1]  // If player 2 has lower health, player 1 attacks
+            ? [this._player2, this._player1]  // If player 1 has lower health, player 1 attacks
             : [this._player1, this._player2]; // Otherwise, player 2 attacks
 
         // Continue the match until one of the players is defeated
@@ -54,6 +56,7 @@ export class MagicalArena {
         const attackingPower = attackingPlayer.attack * attackingDieOutcome;
         const defendingPower = defendingPlayer.strength * defendingDieOutcome;
 
+        console.log(`Starting round: ${this._turnCount++}`);
         console.log(`${attackingPlayer.playerInfo.playerName} attacks with a power of ${attackingPower}.`);
         console.log(`${defendingPlayer.playerInfo.playerName} defends with a power of ${defendingPower}.`)
         console.log(`Current health of ${defendingPlayer.playerInfo.playerName}: ${defendingPlayer.playerHealth}`)
