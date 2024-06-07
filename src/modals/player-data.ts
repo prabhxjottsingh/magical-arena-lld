@@ -56,11 +56,16 @@ export class PlayerData {
      * @param attackingDiceRollVal - The dice roll value affecting the attack.
      * @throws Will throw an error if attackValue or attackingDiceRollVal are negative.
      */
-    reduceHealth(damageAmount: number, diceRollVal: number): void {
-        if (damageAmount < 0 || diceRollVal < 0) {
-            throw new BadRequestError('Attack value and dice roll value must be non-negative.');
-        }
-        this._health = Math.max(0, this._health - (damageAmount * diceRollVal));
+    reduceHealth(attackingPower: number, defendingPower: number): void {
+        this._health = Math.max(0, this._health - Math.max(attackingPower - defendingPower, 0));
+    }
+
+    /**
+     * Checks if the player is alive.
+     * @returns A boolean indicating whether the player is alive.
+     */
+    isAlive(): boolean {
+        return this._health > 0;
     }
 
 }
