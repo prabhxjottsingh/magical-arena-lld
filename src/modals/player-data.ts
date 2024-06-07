@@ -2,7 +2,7 @@ import { BadRequestError } from "../errors/bad-request-error";
 import { Player } from "./player";
 
 export class PlayerData {
-    playerInfo: Player;
+    private _playerInfo: Player;
     private _health: number;
     private _strength: number;
     private _attack: number;
@@ -16,21 +16,34 @@ export class PlayerData {
      * @throws Will throw an error if health, strength, or attack values are negative.
      */
     constructor(playerInfo: Player, health: number, strength: number, attack: number) {
-        if (health < 0 || strength < 0 || attack < 0) {
+        if (health < 0 || strength < 0 || attack < 0)
             throw new BadRequestError('Health, strength, and attack values must be non-negative.');
-        }
+        if (!playerInfo)
+            throw new BadRequestError('Player info is required');
 
-        this.playerInfo = playerInfo;
+        this._playerInfo = playerInfo;
         this._health = health;
         this._strength = strength;
         this._attack = attack;
     }
 
     /**
+     * Gets the current name of the player.
+     * @returns The current player name.
+     */
+    get playerName(): string {
+        return this._playerInfo.playerName;
+    }
+
+    get playerInfo(): Player {
+        return this._playerInfo;
+    }
+
+    /**
      * Gets the current health of the player.
      * @returns The current health value.
      */
-    get playerHealth(): number {
+    get health(): number {
         return this._health;
     }
 
@@ -54,7 +67,6 @@ export class PlayerData {
      * Reduces the health of the player based on attack value and dice roll.
      * @param attackValue - The attack value to apply.
      * @param attackingDiceRollVal - The dice roll value affecting the attack.
-     * @throws Will throw an error if attackValue or attackingDiceRollVal are negative.
      */
     reduceHealth(attackingPower: number, defendingPower: number): void {
         this._health = Math.max(0, this._health - Math.max(attackingPower - defendingPower, 0));

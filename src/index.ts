@@ -1,16 +1,25 @@
+import { BattleHandler } from "./handler/battle-handler";
 import { MagicalArena } from "./modals/magical-arena";
 import { Player } from "./modals/player";
 import { PlayerData } from "./modals/player-data";
+import { InitiateArenaBattleRequest } from "./modals/requests/initiate-arena-battle-request";
 
-// Create player data for Alice and Bob
-const alice = new PlayerData(new Player('Alice'), 50, 5, 10); // Player with name Alice, health 50, strength 5, attack 10
-const bob = new PlayerData(new Player('Bob'), 100, 10, 5);   // Player with name Bob, health 100, strength 10, attack 5
+let battleHandler = new BattleHandler();
 
-// Create a magical arena with Alice and Bob
-const magicalArena = new MagicalArena(alice, bob);
+export const initiateArenaBattle = async (reqJson: string) => {
+    try {
+        const startBattleReq = new InitiateArenaBattleRequest(JSON.parse(reqJson));
+        await battleHandler.initiateBattle(startBattleReq);
+    } catch (error) {
+        console.error("Error in initiating the ArenaBattle: ", error);
+        throw error;
+    }
 
-// Start the match in the magical arena
-magicalArena.startMatch();
+};
 
-// Note: Since the `startMatch` method contains the logic to continue the match until one of the players is defeated,
-//       it will run until one of the players' health drops to zero or below, determining the winner of the match.
+const reqJson: InitiateArenaBattleRequest = {
+    player1: new PlayerData(new Player("Alice"), 100, 10, 10),
+    player2: new PlayerData(new Player("Bob"), 100, 10, 10)
+};
+
+initiateArenaBattle(JSON.stringify(reqJson));

@@ -26,7 +26,7 @@ export class MagicalArena {
      */
     startMatch(): void {
         // Determine which player attacks and which one defends based on health comparison
-        let [attackingPlayer, defendingPlayer] = this._player1.playerHealth > this._player2.playerHealth
+        let [attackingPlayer, defendingPlayer] = this._player1.health > this._player2.health
             ? [this._player2, this._player1]  // If player 1 has lower health, player 1 attacks
             : [this._player1, this._player2]; // Otherwise, player 2 attacks
 
@@ -55,16 +55,16 @@ export class MagicalArena {
         // Calculate attacking and defending powers
         const attackingPower = attackingPlayer.attack * attackingDieOutcome;
         const defendingPower = defendingPlayer.strength * defendingDieOutcome;
-
+        
         console.log(`Starting round: ${this._turnCount++}`);
-        console.log(`${attackingPlayer.playerInfo.playerName} attacks with a power of ${attackingPower}.`);
-        console.log(`${defendingPlayer.playerInfo.playerName} defends with a power of ${defendingPower}.`)
-        console.log(`Current health of ${defendingPlayer.playerInfo.playerName}: ${defendingPlayer.playerHealth}`)
+        console.log(`${attackingPlayer.playerName} attacks with a power of ${attackingPower}.`);
+        console.log(`${defendingPlayer.playerName} defends with a power of ${defendingPower}.`)
+        console.log(`Current health of ${defendingPlayer.playerName}: ${defendingPlayer.health}`)
 
         // Reduce the defending player's health based on the attack
         defendingPlayer.reduceHealth(attackingPower, defendingPower);
 
-        console.log(`Health of ${defendingPlayer.playerInfo.playerName} after the attack: ${defendingPlayer.playerHealth}\n`);
+        console.log(`Health of ${defendingPlayer.playerName} after the attack: ${defendingPlayer.health}\n`);
     }
 
 
@@ -76,6 +76,6 @@ export class MagicalArena {
         const winningPlayer = this._player1.isAlive() ? this._player1 : this._player2;
 
         // Display the winning player's name and remaining health
-        console.log(`The winning player is ${winningPlayer.playerInfo.playerName} with ${winningPlayer.playerHealth} health remaining.`);
+        console.log(`The winning player is ${winningPlayer.playerName} with ${winningPlayer.health} health remaining.`);
     }
 }
