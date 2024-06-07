@@ -4,3 +4,6 @@ build/
 
 # node modules directory
 node_modules/
+
+# Ignore lock files
+package-lock.json
