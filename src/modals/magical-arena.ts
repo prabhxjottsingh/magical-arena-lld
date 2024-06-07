@@ -23,15 +23,18 @@ export class MagicalArena {
      * The match continues until one of the players is defeated.
      */
     startMatch(): void {
+        // Determine which player attacks and which one defends based on health comparison
+        let [attackingPlayer, defendingPlayer] = this._player1.playerHealth > this._player2.playerHealth
+            ? [this._player2, this._player1]  // If player 2 has lower health, player 1 attacks
+            : [this._player1, this._player2]; // Otherwise, player 2 attacks
+
         // Continue the match until one of the players is defeated
         while (this._player1.isAlive() && this._player2.isAlive()) {
-            // Determine which player attacks and which one defends based on health comparison
-            const [attackingPlayer, defendingPlayer] = this._player1.playerHealth > this._player2.playerHealth
-                ? [this._player2, this._player1]  // If player 2 has lower health, player 1 attacks
-                : [this._player1, this._player2]; // Otherwise, player 2 attacks
-
             // Perform the attack between the two players
             this.performAttack(attackingPlayer, defendingPlayer);
+
+            // Switch the attacking and defending players for the next round
+            [attackingPlayer, defendingPlayer] = [defendingPlayer, attackingPlayer];
         }
         // Once the match is over, show the winning player
         this.showWinningPlayer();
