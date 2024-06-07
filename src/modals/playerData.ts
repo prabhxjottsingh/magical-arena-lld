@@ -50,4 +50,17 @@ export class PlayerData {
         return this._attack;
     }
 
+    /**
+     * Reduces the health of the player based on attack value and dice roll.
+     * @param attackValue - The attack value to apply.
+     * @param attackingDiceRollVal - The dice roll value affecting the attack.
+     * @throws Will throw an error if attackValue or attackingDiceRollVal are negative.
+     */
+    reduceHealth(damageAmount: number, diceRollVal: number): void {
+        if (damageAmount < 0 || diceRollVal < 0) {
+            throw new BadRequestError('Attack value and dice roll value must be non-negative.');
+        }
+        this._health = Math.max(0, this._health - (damageAmount * diceRollVal));
+    }
+
 }
