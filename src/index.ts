@@ -9,7 +9,7 @@ let battleHandler = new BattleHandler();
 export const initiateArenaBattle = async (reqJson: string) => {
     try {
         const startBattleReq = new InitiateArenaBattleRequest(JSON.parse(reqJson));
-        await battleHandler.initiateBattle(startBattleReq);
+        battleHandler.initiateBattle(startBattleReq);
     } catch (error) {
         console.error("Error in initiating the ArenaBattle: ", error);
         throw error;

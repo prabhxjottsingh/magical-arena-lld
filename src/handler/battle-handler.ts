@@ -3,7 +3,7 @@ import { InitiateArenaBattleRequest } from "../modals/requests/initiate-arena-ba
 
 export class BattleHandler {
     constructor() { }
-    public async initiateBattle(reqJson: InitiateArenaBattleRequest): Promise<void> {
+    public initiateBattle(reqJson: InitiateArenaBattleRequest): void {
         // Create a magical arena with player1 and player2
         const magicalArena = new MagicalArena(reqJson.player1, reqJson.player2);
 
