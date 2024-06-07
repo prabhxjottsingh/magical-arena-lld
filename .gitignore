@@ -1,0 +1,6 @@
+# compilerdresources
+dist/
+build/
+
+# node modules directory
+node_modules/
