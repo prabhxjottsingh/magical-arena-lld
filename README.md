@@ -67,8 +67,9 @@ npm test
 -   It receives battle initiation requests and coordinates the battle process.
 -   Within the `BattleHandler`, battles are initiated and processed based on the provided data.
 
-## 3. Data Structures: 
-- Following are the data modals `magical-arena.ts`, `player.ts`, `player-data.ts`.
+## 3. Data Structures:
+
+-   Following are the data modals `magical-arena.ts`, `player.ts`, `player-data.ts`.
 
 -   The project defines various data structures such as player information, battle requests, and API responses.
 -   These data structures are used throughout the project for managing player data, representing battle requests, and forming API responses.
@@ -92,5 +93,5 @@ npm test
 
 ## 7. Testing: `index.test.ts`
 
--   The `index.test.ts` file contains test cases to ensure the reliability and correctness of the project.
+-   The `index.test.ts` file contains the test cases to ensure the reliability and correctness of the project.
 -   It includes unit tests for functions like initiating arena battles, handling success responses, and managing error scenarios.
