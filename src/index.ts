@@ -1,5 +1,7 @@
 import { constants } from "./constants";
+import { BadRequestError } from "./errors/bad-request-error";
 import { BattleHandler } from "./handler/battle-handler";
+import { ApiResponse } from "./modals/api-response";
 import { MagicalArena } from "./modals/magical-arena";
 import { Player } from "./modals/player";
 import { PlayerData } from "./modals/player-data";
@@ -7,45 +9,42 @@ import { InitiateArenaBattleRequest } from "./modals/requests/initiate-arena-bat
 
 let battleHandler = new BattleHandler();
 
-const successResponse = (jsonResponse: any) => {
-    const response = {
+
+const successResponse = (jsonResponse: any): ApiResponse => {
+    const response: ApiResponse = {
         body: "",
         statusCode: 0
     };
     if (!jsonResponse) {
-        jsonResponse = constants.SUCCESS_REPONSE;
+        jsonResponse = constants.SUCCESS.MESSAGE;
     }
     response.body = jsonResponse;
-    response.statusCode = 200;
+    response.statusCode = constants.SUCCESS.STATUS_CODE;
+    return response;
 };
 
-const errorResponse = (error: any) => {
-    const response = {
-        body: "",
-        statusCode: 0
+const errorResponse = (error: any): ApiResponse => {
+    const response: ApiResponse = {
+        body: constants.ERRORS.INTERNAL_SERVER_ERROR.MESSAGE,
+        statusCode: constants.ERRORS.INTERNAL_SERVER_ERROR.STATUS_CODE
     };
     if (!error) {
-        error = constants.ERROR_REPONSE;
+        response.body = JSON.stringify(constants.ERRORS.INTERNAL_SERVER_ERROR.MESSAGE);
+        response.statusCode = constants.ERRORS.INTERNAL_SERVER_ERROR.STATUS_CODE;
+    } else if (error instanceof BadRequestError) {
+        response.statusCode = constants.ERRORS.BAD_REQUEST.STATUS_CODE;
+        response.body = constants.ERRORS.BAD_REQUEST.MESSAGE;
     }
-    response.body = error;
-    response.statusCode = 500;
-}
+    return response;
+};
 
-export const initiateArenaBattle = async (reqJson: string) => {
+export const initiateArenaBattle = async (reqJson: string): Promise<ApiResponse> => {
     try {
         const startBattleReq = new InitiateArenaBattleRequest(JSON.parse(reqJson));
         battleHandler.initiateBattle(startBattleReq);
-        successResponse(null);
+        return successResponse(null);
     } catch (error) {
-        console.error("Error in initiating the ArenaBattle: ", error);
-        errorResponse(error);
+        return errorResponse(error);
     }
 
 };
-
-const reqJson: InitiateArenaBattleRequest = {
-    player1: new PlayerData(new Player("Alice"), 100, 10, 10),
-    player2: new PlayerData(new Player("Bob"), 100, 10, 10)
-};
-
-initiateArenaBattle(JSON.stringify(reqJson));

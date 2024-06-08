@@ -55,7 +55,7 @@ export class MagicalArena {
         // Calculate attacking and defending powers
         const attackingPower = attackingPlayer.attack * attackingDieOutcome;
         const defendingPower = defendingPlayer.strength * defendingDieOutcome;
-        
+
         console.log(`Starting round: ${this._turnCount++}`);
         console.log(`${attackingPlayer.playerName} attacks with a power of ${attackingPower}.`);
         console.log(`${defendingPlayer.playerName} defends with a power of ${defendingPower}.`)
@@ -77,5 +77,6 @@ export class MagicalArena {
 
         // Display the winning player's name and remaining health
         console.log(`The winning player is ${winningPlayer.playerName} with ${winningPlayer.health} health remaining.`);
+        console.log("---------------------------------------------- Game Ends -------------------------------------------")
     }
 }
